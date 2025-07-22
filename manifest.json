@@ -1,0 +1,20 @@
+{
+  "name": "ArtNet bridge",
+  "description": "Listens for ArtNet data from the network and forwards to the page.",
+  "version": "0.1",
+  "manifest_version": 2,
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "sockets": {
+    "udp": {
+      "send": "*",
+      "bind": "*"
+    }
+  },
+  "icons": { 
+    "16": "default.png", "128": "default.png" 
+  }
+}
