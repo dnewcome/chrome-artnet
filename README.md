@@ -26,6 +26,12 @@ This is a **"unsafe"** or developer-mode-only app: it must be loaded as an unpac
 
 Chrome Apps were deprecated and removed from desktop Chrome around 2022 (they continue to run on ChromeOS). This code requires an older Chrome version or ChromeOS, and uses Manifest V2 (which predates promise/async-await support in the Chrome Apps API).
 
+### Messaging to a Loaded Page
+
+The background script can only communicate with the app's own window (`window.html`) — it has no access to arbitrary browser tabs or web pages. Chrome Apps are fully isolated from the normal browser environment; there is no equivalent of content scripts to inject into or message an external page.
+
+Even within the app, messaging is fragile: `chrome.runtime.sendMessage` from the background to the window only works if the window is already open **and** has registered a `chrome.runtime.onMessage` listener before the message is sent. Incoming UDP packets that arrive before the window is fully loaded will be silently dropped — there is no message queue. This means the window would need to signal readiness back to the background before data forwarding could work reliably.
+
 ## Installation
 
 1. Go to `chrome://extensions/`
